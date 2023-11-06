@@ -1,5 +1,5 @@
 import { Button, Form, FormGroup, Label, Input, Row, Col, Alert, Progress } from 'reactstrap';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeatRequest, getRequests, loadSeatsRequest } from '../../../redux/seatsRedux';
 
@@ -20,10 +20,9 @@ const OrderTicketForm = () => {
   });
   const [isError, setIsError] = useState(false);
 
-  const loadSeats = () => {
-    // Dispatch loadSeatsRequest action
+  const loadSeats = useCallback(() => {
     dispatch(loadSeatsRequest());
-  };
+  }, [dispatch]);
 
   const updateSeat = (e, seatId) => {
     e.preventDefault();
@@ -66,12 +65,12 @@ const OrderTicketForm = () => {
   useEffect(() => {
 
 
-    // Set interval to load seats every 2 minutes
+ 
     const interval = setInterval(() => {
       loadSeats();
-    }, 2 * 60 * 1000); // 2 minutes in milliseconds
+    }, 2 * 60 * 1000); 
 
-    // Clear interval on component unmount
+   
     return () => clearInterval(interval);
   }, [loadSeats]);
 
