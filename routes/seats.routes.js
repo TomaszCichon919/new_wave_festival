@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const socket = require('socket.io');
 
     router.route('/seats').get((req, res) => {
     res.json(db.seats);
@@ -41,6 +42,8 @@ const db = require('../db');
   
     db.seats.push(newSeat);
     res.status(201).json({ message: 'OK' });
+   req.io.emit('seatsUpdated', JSON.stringify(db.seats));
+
   });
   
     router.route('/seats/:id').put((req, res) => {

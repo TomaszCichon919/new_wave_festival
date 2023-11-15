@@ -1,5 +1,5 @@
 import { Button, Form, FormGroup, Label, Input, Row, Col, Alert, Progress } from 'reactstrap';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSeatRequest, getRequests, loadSeatsRequest } from '../../../redux/seatsRedux';
 
@@ -9,7 +9,7 @@ import SeatChooser from './../SeatChooser/SeatChooser';
 const OrderTicketForm = () => {
   const dispatch = useDispatch();
   const requests = useSelector(getRequests);
-  console.log(requests);
+  
 
 
   const [order, setOrder] = useState({
@@ -62,18 +62,7 @@ const OrderTicketForm = () => {
     }
   }
 
-  useEffect(() => {
-
-
- 
-    const interval = setInterval(() => {
-      loadSeats();
-    }, 2 * 60 * 1000); 
-
-   
-    return () => clearInterval(interval);
-  }, [loadSeats]);
-
+  
   return (
     <Form className="order-ticket-form" onSubmit={submitForm}>
       <Row>
