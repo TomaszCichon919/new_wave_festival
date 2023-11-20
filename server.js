@@ -2,7 +2,8 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const socket = require('socket.io');
-const db = require('./db');
+const mongoose = require('mongoose');
+const Seat = require('./models/seats.model');
 
 
 
@@ -35,6 +36,14 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes); 
 app.use('/api', seatsRoutes); 
 
+mongoose.connect('mongodb://0.0.0.0:27017/NewWaveDB', { useNewUrlParser: true });
+const db = mongoose.connection;
+
+db.once('open', () => {
+  console.log('Connected to the database');
+});
+db.on('error', err => console.log('Error ' + err));
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
@@ -44,11 +53,17 @@ app.use((req, res) => {
   });
   
 
-  io.on('connection', (socket) => {
-    console.log('New socket');
-    socket.emit('seatsUpdated', JSON.stringify(db.seats));
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
-  });
+  io.on('connection', async (socket) => {
+    console.log('New socket');
+    try {
+      const seatsData =  await Seat.find();
+      socket.emit('seatsUpdated', JSON.stringify(seatsData));
+    } catch (err) {
+      console.error('Error fetching seats:', err);
+    }
+  
+    socket.on('disconnect', () => {
+      console.log('Client disconnected');
+    });
   });
