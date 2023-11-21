@@ -36,7 +36,7 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes); 
 app.use('/api', seatsRoutes); 
 
-mongoose.connect('mongodb://0.0.0.0:27017/NewWaveDB', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://tomekcichon03005:atlas121299@cluster0.alnb1dj.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
