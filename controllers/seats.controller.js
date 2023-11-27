@@ -13,7 +13,7 @@ exports.getAll = async (req, res) => {
   exports.getById = async (req, res) => {
 
     try {
-      const seatToSelect = await Product.findById(req.params.id);
+      const seatToSelect = await Seat.findById(req.params.id);
       if(!seatToSelect) res.status(404).json({ message: 'Seat not found' });
       else res.json(seatToSelect);
     }
@@ -84,6 +84,19 @@ exports.getAll = async (req, res) => {
     }
   
   };
+
+  exports.getSeats = async (req, res) => {
+    const { day } = req.params;
+  
+    try {
+      const seatsForDay = await Seat.find({ day: day });
+      const totalSeats = 50; 
+      const freeSeats = totalSeats -  seatsForDay.length;
+      res.json({ freeSeats: freeSeats });
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  }
   
   
   

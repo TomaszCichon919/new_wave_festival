@@ -36,7 +36,14 @@ app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes); 
 app.use('/api', seatsRoutes); 
 
-mongoose.connect('mongodb+srv://tomekcichon03005:atlas121299@cluster0.alnb1dj.mongodb.net/NewWaveDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+const NODE_ENV = process.env.NODE_ENV;
+let dbUri = '';
+
+if (NODE_ENV === 'production') dbUri = 'mongodb+srv://tomekcichon03005:atlas121299@cluster0.alnb1dj.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+else if (NODE_ENV === 'test') dbUri = 'mongodb://0.0.0.0:27017/NewWaveDBtest';
+else dbUri = 'mongodb+srv://tomekcichon03005:atlas121299@cluster0.alnb1dj.mongodb.net/NewWaveDB?retryWrites=true&w=majority';
+
+mongoose.connect(dbUri, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
 db.once('open', () => {
@@ -67,3 +74,5 @@ app.use((req, res) => {
       console.log('Client disconnected');
     });
   });
+
+  module.exports = server;
