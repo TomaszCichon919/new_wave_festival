@@ -33,9 +33,9 @@ const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 
-app.use('/api', testimonialsRoutes); 
-app.use('/api', concertsRoutes); 
-app.use('/api', seatsRoutes); 
+app.use('/api', testimonialsRoutes);
+app.use('/api', concertsRoutes);
+app.use('/api', seatsRoutes);
 
 const NODE_ENV = process.env.NODE_ENV;
 let dbUri = '';
@@ -57,23 +57,23 @@ app.get('*', (req, res) => {
 });
 
 app.use((req, res) => {
-    res.status(404).send('404 not found...');
+  res.status(404).send('404 not found...');
+});
+
+
+
+io.on('connection', async (socket) => {
+  console.log('New socket');
+  try {
+    const seatsData = await Seat.find();
+    socket.emit('seatsUpdated', JSON.stringify(seatsData));
+  } catch (err) {
+    console.error('Error fetching seats:', err);
+  }
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
   });
-  
+});
 
-
-  io.on('connection', async (socket) => {
-    console.log('New socket');
-    try {
-      const seatsData =  await Seat.find();
-      socket.emit('seatsUpdated', JSON.stringify(seatsData));
-    } catch (err) {
-      console.error('Error fetching seats:', err);
-    }
-  
-    socket.on('disconnect', () => {
-      console.log('Client disconnected');
-    });
-  });
-
-  module.exports = server;
+module.exports = server;
