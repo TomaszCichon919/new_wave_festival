@@ -1,8 +1,12 @@
 const Seat = require('../models/seats.model');
+const sanitize = require('mongo-sanitize');
+
+
 
 exports.getAll = async (req, res) => {
     try {
-      res.json(await Seat.find());
+      const sanitizedData = sanitize(req.query);
+      res.json(await Seat.find(sanitizedData));
     }
     catch(err) {
       res.status(500).json({ message: err });
