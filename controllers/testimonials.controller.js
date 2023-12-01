@@ -1,12 +1,17 @@
 const Testimonial = require('../models/testimonials.model');
+const sanitize = require('mongo-sanitize');
+
+
 
 exports.getAll = async (req, res) => {
-    try {
-      res.json(await Testimonial.find());
-    }
-    catch(err) {
-      res.status(500).json({ message: err });
-    }
+
+  try {
+    const sanitizedData = sanitize(req.query);
+    res.json(await Testimonial.find(sanitizedData));
+  } catch (err) {
+    res.status(500).json({ message: err });
+  }
+   
   };
   
 
@@ -15,7 +20,7 @@ exports.getAll = async (req, res) => {
     try {
       const count = await Testimonial.countDocuments();
       const rand = Math.floor(Math.random() * count);
-      const test = await Product.findOne().skip(rand);
+      const test = await Testimonial.findOne().skip(rand);
       if(!test) res.status(404).json({ message: 'Not found' });
       else res.json(test);
     }
@@ -43,7 +48,7 @@ exports.getAll = async (req, res) => {
  
     try {
     const { author, text } = req.body;
-    const newTestimonial = new Product({ author, text });
+    const newTestimonial = new Testimonial({ author, text });
       await newTestimonial.save();
       res.status(201).json({ message: 'OK' });
   

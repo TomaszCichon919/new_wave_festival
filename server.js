@@ -4,12 +4,13 @@ const cors = require('cors');
 const socket = require('socket.io');
 const mongoose = require('mongoose');
 const Seat = require('./models/seats.model');
-
+const helmet = require('helmet');
 
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(helmet());
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '/client/build')));
