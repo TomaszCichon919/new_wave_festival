@@ -12,7 +12,7 @@
     "mocha": "10.1.0",
     "mongo-sanitize": "1.0.1",
     "mongodb": "4.17.0",
-    "mongoose": "7.5.0",
+    "mongoose": "7.6.4",
     "onchange": "6.1.0",
     "snyk": "1.235.0",
     "socket.io": "^4.7.2"
