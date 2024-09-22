@@ -15,7 +15,7 @@
     "mongoose": "7.5.0",
     "onchange": "6.1.0",
     "snyk": "1.235.0",
-    "socket.io": "^4.7.2"
+    "socket.io": "^4.8.0"
   },
   "scripts": {
     "start": "nodemon server.js",
