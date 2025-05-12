@@ -9,7 +9,7 @@
     "cors": "^2.8.5",
     "express": "4.17.3",
     "helmet": "3.21.1",
-    "mocha": "10.1.0",
+    "mocha": "11.2.2",
     "mongo-sanitize": "1.0.1",
     "mongodb": "4.17.0",
     "mongoose": "7.5.0",
